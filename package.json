@@ -1,7 +1,7 @@
 {
-  "name": "Shema Server",
+  "name": "srija",
   "version": "1.0.0",
-  "description": "Test Server for SHEMA",
+  "description": "Test Server for app",
   "proxy": "http://localhost:3000/1 ",
   "main": "server.js",
   "scripts": {
@@ -13,9 +13,9 @@
   "dependencies": {
     "axios": "^1.7.7",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.4.5",
     "express": "^4.21.0",
-    "mongoose": "^6.5.3",
+    "mongoose": "^6.13.2",
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
