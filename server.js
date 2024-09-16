@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const connectDB = require("./config/db"); // Ensure this is the correct path
+const connectDB = require("./config/db"); // Ensure this path is correct
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -10,6 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
+app.use(cors()); // Apply CORS globally
 
 // Connect to MongoDB
 connectDB().then(() => {
@@ -25,4 +26,4 @@ connectDB().then(() => {
 
 // Routes
 app.use('/api/items', require("./routes/items"));
-app.use('/api/payment', cors(), require("./routes/payment"));
+app.use('/api/payment', require("./routes/payment"));
