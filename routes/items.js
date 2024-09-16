@@ -1,16 +1,33 @@
-const express = require("express")
-const router = express.Router()
-const cors = require("cors")
-const uploadPhoto = require("../middlewares/upload")
-const { getItem, addItem, updateItem, deleteItem } = require("../controllers/itemsController")
+const express = require("express");
+const cors = require("cors");
+require("dotenv").config();
+const connectDB = require("./config/db");
+const PORT = process.env.PORT || 5000;
 
-router.get('/', cors(), getItem)
+const app = express();
 
-/* The post request must have a body elemnt with name images */
-router.post('/', uploadPhoto.array('images'), addItem)
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static("public"));
+app.use(cors()); // Apply CORS globally
 
-router.put('/:id', updateItem)
+// Connect to MongoDB
+connectDB().then(() => {
+    // Only start the server if the database connection is successful
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}).catch(err => {
+    console.error('Failed to connect to MongoDB:', err.message);
+    process.exit(1);
+});
 
-router.delete('/:id', deleteItem)
+// Routes
+app.use('/api/items', require("./routes/itemsroute")); // Ensure this path is correct
+app.use('/api/payment', require("./routes/payment")); // Ensure this path is correct
 
-module.exports = router
+// Catch-all route for handling 404s
+app.use((req, res) => {
+    res.status(404).json({ message: "Not Found" });
+});
